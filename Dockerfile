@@ -3,6 +3,7 @@ FROM ubuntu:latest
 RUN apt update
 RUN apt install python3 -y
 RUN apt install python3-psutil -y
+RUN apt install python3-flask -y
 
 WORKDIR /home/ubuntu/ty_healthcheck
 

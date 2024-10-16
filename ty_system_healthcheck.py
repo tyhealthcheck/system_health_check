@@ -5,27 +5,31 @@
 #Adding in memory and disk usage
 #20241016 T Mansfield version 0.3
 #Changing output to JSON
-
+#20241016 T Mansfield 
+#Adding  endpoints
+#Adding app.run (0.0.0.0) to allow running in a container
 import os
 import psutil
-import json
+from  flask import Flask, jsonify
+
+app = Flask(__name__)
+@app.route('/healthcheck', methods=['GET'])
 
 def get_healthcheck():
-#  CPU Usage
+# CPU Usage
 	cpu_usage = psutil.cpu_percent(interval=1)
-#  Mem Usage
+# Memory usage
 	mem_usage = psutil.virtual_memory()
-#  Disk Usage
-	disk_usage = psutil.disk_usage('/')
+# Disk Usage
+	disk_usage =  psutil.disk_usage('/')
 
-	return {
-		'cpu_usage': f'{cpu_usage}%', 
-		'memory_usage': f'{mem_usage}%',
-		'disk_usage': f'{disk_usage}%'
-	}
+	return jsonify({'CPU_usage': f'{cpu_usage}%',
+		'Mem_usage': f'{mem_usage}%',
+		'Disk_usage': f'{disk_usage}%'
+	})
+
 
 if __name__ == "__main__":
-#    print(get_healthcheck())
-       json_string = json.dumps(get_healthcheck())
-       print(type(json_string))
-       print(json_string)
+#        app.run(debug=True)
+	app.run(host='0.0.0.0', port=5000)
+#To test use curl http://localhost:5000/healthcheck
