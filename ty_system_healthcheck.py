@@ -3,9 +3,12 @@
 #The script uses the python psutil package
 #20241015 T Mansfield version 0.2
 #Adding in memory and disk usage
+#20241016 T Mansfield version 0.3
+#Changing output to JSON
 
 import os
 import psutil
+import json
 
 def get_healthcheck():
 #  CPU Usage
@@ -22,4 +25,7 @@ def get_healthcheck():
 	}
 
 if __name__ == "__main__":
-    print(get_healthcheck())
+#    print(get_healthcheck())
+       json_string = json.dumps(get_healthcheck())
+       print(type(json_string))
+       print(json_string)
